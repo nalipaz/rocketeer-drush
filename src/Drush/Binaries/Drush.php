@@ -28,9 +28,6 @@ class Drush extends AbstractBinary {
     return $alias;
   }
 
-  /**
-   * Allow setting the drush alias to use for the session.
-   */
   public function setSiteAlias($alias) {
     $this->alias = $this->ensureAliasFormat($alias);
 
@@ -40,7 +37,9 @@ class Drush extends AbstractBinary {
   /**
    * Allow setting the drush alias to use for the session.
    */
-  public function siteSet() {
+  public function siteSet($alias) {
+    $this->alias = $this->ensureAliasFormat($alias);
+
     return $this->getCommand('site-set', $this->alias);
   }
 
