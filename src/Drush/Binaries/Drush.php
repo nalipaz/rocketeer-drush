@@ -40,7 +40,7 @@ class Drush extends AbstractBinary {
   public function siteSet($alias) {
     $this->alias = $this->ensureAliasFormat($alias);
 
-    return $this->getCommand('site-set', $this->alias);
+    return $this->getCommand('site-set', [$this->alias]);
   }
 
   public function status() {
@@ -71,11 +71,11 @@ class Drush extends AbstractBinary {
   }
 
   public function configImport($config = 'sync') {
-    return $this->getCommand('config-import', $config, '-y');
+    return $this->getCommand('config-import', [$config], ['-y']);
   }
 
   public function updatedb() {
-    return $this->getCommand('updatedb', [], '-y');
+    return $this->getCommand('updatedb', [], ['-y']);
   }
 
   public function cacheRebuild() {
@@ -87,7 +87,7 @@ class Drush extends AbstractBinary {
   }
 
   public function setMaintenanceMode($value = '1') {
-    return $this->getCommand('sset', 'system.maintenance_mode', "'$value'");
+    return $this->getCommand('sset', ['system.maintenance_mode', "'$value'"]);
   }
 
   public function copyDatabase() {
