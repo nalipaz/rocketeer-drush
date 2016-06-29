@@ -37,10 +37,11 @@ class DrushPlugin extends AbstractPlugin {
   public function onQueue(TasksHandler $queue) {
     $queue->{'before-symlink'}('deploy', function ($task) {
       $drush = $this->builder->buildBinary('drush');
-      $drush->getCommand('DrushConfigImport');
-      $drush->getCommand('DrushUpdatedb');
-      $drush->getCommand('DrushAdvAggClearAllFiles');
-      $drush->getCommand('DrushCacheRebuild');
+      $drush->run('siteSet', $task->config->get('rocketeer-drush::drush_alias'));
+      $drush->run('configImport');
+      $drush->run('updatedb');
+      $drush->run('advaggClearAllFiles');
+      $drush->run('cacheRebuild');
     });
   }
 }
