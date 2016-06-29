@@ -1,6 +1,7 @@
 <?php
 namespace Rocketeer\Plugins\Drush;
 
+use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Services\TasksHandler;
 
