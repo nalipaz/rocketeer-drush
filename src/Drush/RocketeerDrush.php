@@ -4,7 +4,7 @@ namespace Rocketeer\Plugins\Drush;
 use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Services\TasksHandler;
 
-class DrushPlugin extends AbstractPlugin {
+class RocketeerDrush extends AbstractPlugin {
 
   protected $lookups = array(
     'binaries' => array(
