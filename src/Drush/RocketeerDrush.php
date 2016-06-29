@@ -39,13 +39,11 @@ class RocketeerDrush extends AbstractPlugin {
     $queue->after('deploy', function ($task) {
       $drush = $this->builder->buildBinary('drush');
       $drush->setSiteAlias('@labiomed');
-      $drush->run(
-        ['siteSet'],
-        ['configImport'],
-        ['updatedb'],
-        ['advaggClearAllFiles'],
-        ['cacheRebuild'],
-      );
+      $drush->run('siteSet');
+      $drush->run('configImport');
+      $drush->run('updatedb');
+      $drush->run('advaggClearAllFiles');
+      $drush->run('cacheRebuild');
     });
   }
 }
