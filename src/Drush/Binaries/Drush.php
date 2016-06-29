@@ -31,8 +31,8 @@ class Drush extends AbstractBinary {
   /**
    * Allow setting the drush alias to use for the session.
    */
-  public function siteSet() {
-    $this->alias = $this->ensureAliasFormat($this->rocketeer->getOption('remote.drush_alias'));
+  public function siteSet($alias) {
+    $this->alias = $alias;
 
     return $this->getCommand('site-set', $this->alias);
   }
@@ -61,27 +61,27 @@ class Drush extends AbstractBinary {
   }
 
   public function sqlDump($destination = 'backup.sql') {
-    return $this->getCommand('sql-dump', ['>', $destination]);
+    return $this->getCommand($this->alias, ['sql-dump', '>', $destination]);
   }
 
   public function configImport($config = 'sync') {
-    return $this->getCommand('config-import', $config, '-y');
+    return $this->getCommand($this->alias, ['config-import', $config], '-y');
   }
 
   public function updatedb() {
-    return $this->getCommand('updatedb', [], '-y');
+    return $this->getCommand($this->alias, ['updatedb'], '-y');
   }
 
   public function cacheRebuild() {
-    return $this->getCommand('cache-rebuild');
+    return $this->getCommand($this->alias, ['cache-rebuild']);
   }
 
   public function advaggClearAllFiles() {
-    return $this->getCommand('advagg-clear-all-files');
+    return $this->getCommand($this->alias, ['advagg-clear-all-files']);
   }
 
   public function setMaintenanceMode($value = '1') {
-    return $this->getCommand('sset', 'system.maintenance_mode', "'$value'");
+    return $this->getCommand($this->alias, ['sset', 'system.maintenance_mode', "'$value'"]);
   }
 
   public function copyDatabase() {
