@@ -71,11 +71,11 @@ class Drush extends AbstractBinary {
   }
 
   public function configImport($config = 'sync') {
-    return $this->getCommand('config-import', [$config], ['-y']);
+    return $this->getCommand('config-import', [$config, '-y']);
   }
 
   public function updatedb() {
-    return $this->getCommand('updatedb', [], ['-y']);
+    return $this->getCommand('updatedb', ['-y']);
   }
 
   public function cacheRebuild() {
