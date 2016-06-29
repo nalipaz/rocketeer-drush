@@ -22,6 +22,7 @@ class DrushPlugin extends AbstractPlugin {
     $this->configurationFolder = implode(DIRECTORY_SEPARATOR, array(
       __DIR__,
       "..",
+      "..",
       "config"
     ));
   }

@@ -85,7 +85,7 @@ class Drush extends AbstractBinary {
   }
 
   public function copyDatabase() {
-    // drush sql-create RELEASE && drush @labiomed sql-dump | mysql --user=user --password=pass --host=localhost RELEASE
+    // drush sql-create RELEASE && drush @alias sql-dump | mysql --user=user --password=pass --host=localhost RELEASE
     // drush sql-sync????
   }
 }
