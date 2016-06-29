@@ -71,7 +71,7 @@ class Drush extends AbstractBinary {
   }
 
   public function configImport($config = 'sync') {
-    return $this->getCommand('config-import', [$config], '-y');
+    return $this->getCommand('config-import', $config, '-y');
   }
 
   public function updatedb() {
@@ -87,7 +87,7 @@ class Drush extends AbstractBinary {
   }
 
   public function setMaintenanceMode($value = '1') {
-    return $this->getCommand('sset', ['system.maintenance_mode', "'$value'"]);
+    return $this->getCommand('sset', 'system.maintenance_mode', "'$value'");
   }
 
   public function copyDatabase() {
