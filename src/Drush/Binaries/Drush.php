@@ -87,7 +87,7 @@ class Drush extends AbstractBinary {
   }
 
   public function setMaintenanceMode($value = '1') {
-    return $this->getCommand('sset', ['system.maintenance_mode', "'$value'"]);
+    return $this->getCommand('sset', 'system.maintenance_mode', "'$value'");
   }
 
   public function copyDatabase() {
