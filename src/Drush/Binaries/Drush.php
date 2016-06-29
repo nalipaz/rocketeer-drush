@@ -45,7 +45,7 @@ class Drush extends AbstractBinary {
   }
 
   public function status() {
-    return $this->getCommand($this->alias, ['status']);
+    return $this->getCommand('status');
   }
 
   public function statusInfo($value) {
@@ -68,27 +68,27 @@ class Drush extends AbstractBinary {
   }
 
   public function sqlDump($destination = 'backup.sql') {
-    return $this->getCommand($this->alias, ['sql-dump', '>', $destination]);
+    return $this->getCommand('sql-dump', ['>', $destination]);
   }
 
   public function configImport($config = 'sync') {
-    return $this->getCommand($this->alias, ['config-import', $config], '-y');
+    return $this->getCommand('config-import', [$config], '-y');
   }
 
   public function updatedb() {
-    return $this->getCommand($this->alias, ['updatedb'], '-y');
+    return $this->getCommand('updatedb', [], '-y');
   }
 
   public function cacheRebuild() {
-    return $this->getCommand($this->alias, ['cache-rebuild']);
+    return $this->getCommand('cache-rebuild');
   }
 
   public function advaggClearAllFiles() {
-    return $this->getCommand($this->alias, ['advagg-clear-all-files']);
+    return $this->getCommand('advagg-clear-all-files');
   }
 
   public function setMaintenanceMode($value = '1') {
-    return $this->getCommand($this->alias, ['sset', 'system.maintenance_mode', "'$value'"]);
+    return $this->getCommand('sset', ['system.maintenance_mode', "'$value'"]);
   }
 
   public function copyDatabase() {
