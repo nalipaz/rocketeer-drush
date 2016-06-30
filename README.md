@@ -17,4 +17,31 @@ Setup the configuration for your project by running:
 ``` bash
 rocketeer plugin:config nalipaz/rocketeer-drush
 ```
-Then edit the produced configuration file to set your drush alias and config key
+Then edit the produced configuration file to set your project settings.
+
+You also need to add the plugin to the plugins array in `.rocketeer/config.php`:
+
+``` php
+  'plugins' => [
+    'Rocketeer\Plugins\Drush\RocketeerDrush',
+  ],
+```
+
+### Overriding configuration
+
+You can set global configuration for your project as described under usage above. However, in some projects you may wish to override settings per connection, stages, or strategies (most commonly connections). As an example, you could do the following for multiple connections with different configs.
+
+```
+.rocketeer/connections/
+├── local
+│   └── remote.php
+├── production
+│   ├── drush.php
+│   ├── remote.php
+│   └── scm.php
+└── staging
+    ├── drush.php
+    ├── remote.php
+    └── scm.php
+```
+In the above example we are overriding some configuration in both the production and staging connections. `drush.php` is simply a copy of `.rocketeer/plugins/rocketeers/rocketeer-drush/drush.php` which has been modified with different settings like a different `drush_alias`.
