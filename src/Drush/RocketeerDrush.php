@@ -42,8 +42,11 @@ class RocketeerDrush extends AbstractPlugin {
   public function onQueue(TasksHandler $queue) {
     // Would've preferred to use $queue->addTaskListeners('deploy', 'before-symlink', function($task), but it runs three times...
     $queue->before('deploy', function ($task) {
+      $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
+      $drush->setSiteAlias($this->getConfig($task, 'drush_alias'));
       $task->runForCurrentRelease([
-        'Rocketeer\Plugins\Drush\Tasks\DrushSqlDump',
+        $drush->run('siteSet'),
+        $drush->run('sqlDump', $task->releasesManager->getCurrentRelease() . '.sql'),
       ]);
     });
     $queue->after('deploy', function ($task) {
