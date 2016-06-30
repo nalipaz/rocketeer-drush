@@ -40,7 +40,7 @@ class Drush extends AbstractBinary {
   public function siteSet($alias) {
     $this->alias = $this->ensureAliasFormat($alias);
 
-    return $this->getCommand('siteset', $this->alias);
+    return $this->getCommand('site-set', $this->alias);
   }
 
   public function status() {
