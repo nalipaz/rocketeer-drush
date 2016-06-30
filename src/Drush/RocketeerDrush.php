@@ -29,7 +29,7 @@ class RocketeerDrush extends AbstractPlugin {
   }
 
   public function getConfig($task, $key) {
-    return ($task->rocketeer->getOption('drush.' . $key)) ? $task->rocketeer->getOption('drush.' . $key) : $task->config->get('rocketeer-drush::' . $key);
+    return ($task->rocketeer->getOption('drush.' . $key)) ? $task->rocketeer->getOption('drush.' . $key) : $task->config->get('rocketeer-drush::drush.' . $key);
   }
 
   /**
