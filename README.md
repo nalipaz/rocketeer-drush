@@ -9,3 +9,12 @@ Via Composer
 ``` bash
 $ rocketeer plugin:install nalipaz/rocketeer-drush
 ```
+
+## Usage
+
+Setup the configuration for your project by running:
+
+``` bash
+rocketeer plugin:config nalipaz/rocketeer-drush
+```
+Then edit the produced configuration file to set your drush alias and config key
