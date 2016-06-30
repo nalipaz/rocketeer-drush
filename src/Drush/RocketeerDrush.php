@@ -38,10 +38,6 @@ class RocketeerDrush extends AbstractPlugin {
   public function onQueue(TasksHandler $queue) {
     $queue->addTaskListeners('deploy', 'before-symlink', function($task) {
       $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
-      $drush->run('cacheRebuild');
-    });
-    $queue->after('deploy', function ($task) {
-      $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
       $drush->setSiteAlias($task->config->get('rocketeer-drush::drush_alias'));
       $drush->run('siteSet');
       $drush->run('configImport', $task->config->get('rocketeer-drush::drupal_config'));
@@ -49,5 +45,14 @@ class RocketeerDrush extends AbstractPlugin {
       $drush->run('advaggClearAllFiles');
       $drush->run('cacheRebuild');
     });
+//    $queue->after('deploy', function ($task) {
+//      $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
+//      $drush->setSiteAlias($task->config->get('rocketeer-drush::drush_alias'));
+//      $drush->run('siteSet');
+//      $drush->run('configImport', $task->config->get('rocketeer-drush::drupal_config'));
+//      $drush->run('updatedb');
+//      $drush->run('advaggClearAllFiles');
+//      $drush->run('cacheRebuild');
+//    });
   }
 }
