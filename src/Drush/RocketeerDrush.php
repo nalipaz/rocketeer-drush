@@ -36,6 +36,10 @@ class RocketeerDrush extends AbstractPlugin {
    * @return void
    */
   public function onQueue(TasksHandler $queue) {
+    $queue->addTaskListeners('deploy', 'before-symlink', function($task) {
+      $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
+      $drush->run('cacheRebuild');
+    });
     $queue->after('deploy', function ($task) {
       $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
       $drush->setSiteAlias($task->config->get('rocketeer-drush::drush_alias'));
