@@ -28,6 +28,10 @@ class RocketeerDrush extends AbstractPlugin {
     ));
   }
 
+  public function getConfig($task, $key) {
+    return ($task->config->get('rocketeer::drush.' . $key)) ? $task->config->get('rocketeer::drush.' . $key) : $task->config->get('rocketeer-drush::' . $key);
+  }
+
   /**
    * Register Tasks with Rocketeer
    *
@@ -39,9 +43,9 @@ class RocketeerDrush extends AbstractPlugin {
     // Would've preferred to use $queue->addTaskListeners('deploy', 'before-symlink', function($task), but it runs three times...
     $queue->after('deploy', function ($task) {
       $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
-      $drush->setSiteAlias($task->config->get('rocketeer-drush::drush_alias'));
+      $drush->setSiteAlias($this->getConfig($task, 'drush_alias'));
       $drush->run('siteSet');
-      $drush->run('configImport', $task->config->get('rocketeer-drush::drupal_config'));
+      $drush->run('configImport', $this->getConfig($task, 'drupal_config'));
       $drush->run('updatedb');
       $drush->run('advaggClearAllFiles');
       $drush->run('cacheRebuild');
