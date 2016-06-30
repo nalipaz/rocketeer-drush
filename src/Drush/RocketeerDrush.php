@@ -50,6 +50,7 @@ class RocketeerDrush extends AbstractPlugin {
     $queue->after('deploy', function ($task) {
       $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
       $drush->setSiteAlias($this->getConfig($task, 'drush_alias'));
+      $drush->run('sqlDump', $task->releasesManager->getCurrentRelease() . '.sql');
       $drush->run('siteSet');
       $drush->run('configImport', $this->getConfig($task, 'drupal_config'));
       $drush->run('updatedb');
