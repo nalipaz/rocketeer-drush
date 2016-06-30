@@ -65,7 +65,9 @@ class Drush extends AbstractBinary {
   }
 
   public function sqlDump($destination = 'backup.sql') {
-    return $this->getCommand('sql-dump', ['>', $destination]);
+    return $this->siteSet() . 
+      ' && ' . 
+      $this->getCommand('sql-dump', ['>', $destination]);
   }
 
   public function configImport($config = 'sync') {

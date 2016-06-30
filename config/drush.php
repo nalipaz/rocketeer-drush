@@ -1,5 +1,5 @@
 <?php
 return array(
-  'drush_alias' => '@self',
+  'drush_alias' => '@none',
   'drupal_config' => 'sync',
 );

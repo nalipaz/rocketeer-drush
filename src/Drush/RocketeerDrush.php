@@ -5,8 +5,14 @@ use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Services\TasksHandler;
 use Rocketeer\Plugins\Drush\Tasks\DrushSqlDump;
+use Rocketeer\Plugins\Drush\Tasks\DrushSiteSet;
+use Rocketeer\Plugins\Drush\Tasks\DrushConfigImport;
+use Rocketeer\Plugins\Drush\Tasks\DrushUpdatedb;
+use Rocketeer\Plugins\Drush\Tasks\DrushCacheRebuild;
 
 class RocketeerDrush extends AbstractPlugin {
+  
+  public $binaryPath = 'Rocketeer\Plugins\Drush\Binaries\Drush';
 
   protected $lookups = array(
     'binaries' => array(
@@ -41,26 +47,19 @@ class RocketeerDrush extends AbstractPlugin {
    * @return void
    */
   public function onQueue(TasksHandler $queue) {
-//    $drushSqlDump = new DrushSqlDump($this->app);
-//    $drushSqlDump->setDrush($this);
-//    $queue->addTaskListeners('deploy', 'before', [clone $drushSqlDump], -10, true);
-//
-//    // Would've preferred to use $queue->addTaskListeners('deploy', 'before-symlink', function($task), but it runs three times...
-//    $queue->before('deploy', function ($task) {
-//      $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
-//      $drush->setSiteAlias($this->getConfig($task, 'drush_alias'));
-//      $drush->run('siteSet');
-//      $drush->run('sqlDump', $task->releasesManager->getCurrentRelease() . '.sql');
-//    });
-    $queue->after('deploy', function ($task) {
-      $drush = $task->binary('Rocketeer\Plugins\Drush\Binaries\Drush');
-      $drush->setSiteAlias($this->getConfig($task, 'drush_alias'));
-      $drush->run('siteSet');
-      $drush->run('sqlDump', $task->releasesManager->getCurrentRelease() . '.sql');
-      $drush->run('configImport', $this->getConfig($task, 'drupal_config'));
-      $drush->run('updatedb');
-      $drush->run('advaggClearAllFiles');
-      $drush->run('cacheRebuild');
-    });
+    $drushCommand = new DrushSqlDump($this->app, $this);
+    $queue->addTaskListeners('deploy', 'before', [clone $drushCommand], -10, true);
+
+    $drushCommand = new DrushSiteSet($this->app, $this);
+    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
+
+    $drushCommand = new DrushConfigImport($this->app, $this);
+    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
+
+    $drushCommand = new DrushUpdatedb($this->app, $this);
+    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
+
+    $drushCommand = new DrushCacheRebuild($this->app, $this);
+    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
   }
 }
