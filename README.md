@@ -27,7 +27,7 @@ You also need to add the plugin to the plugins array in `.rocketeer/config.php`:
   ],
 ```
 
-And lastly, you need to edit `.rocketeer/remote.php` to have `'drush'` in the shelled array: `'shelled' => ['drush'],`.
+And lastly (until [this issue for Rocketeer 3.0](https://github.com/rocketeers/rocketeer/issues/680) gets resolved), you need to edit `.rocketeer/remote.php` to have `'drush'` in the shelled array: `'shelled' => ['drush'],`.
 
 ### Overriding configuration
 
