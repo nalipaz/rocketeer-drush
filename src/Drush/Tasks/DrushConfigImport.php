@@ -8,7 +8,7 @@ use Illuminate\Container\Container;
 
 class DrushConfigImport extends DrushBaseTask {
 
-  protected $name = 'drushconfigimport';
+  protected $name = 'Drush Import Configuration';
   protected $description = 'Import the drupal configuration files.';
 
   /**

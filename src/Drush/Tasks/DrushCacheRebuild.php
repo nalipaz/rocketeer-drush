@@ -8,7 +8,7 @@ use Illuminate\Container\Container;
 
 class DrushCacheRebuild extends DrushBaseTask {
 
-  protected $name = 'drushupdatedb';
+  protected $name = 'Drush Cache Rebuild';
   protected $description = 'Rebuild the Drupal cache.';
 
   /**

@@ -8,7 +8,7 @@ use Illuminate\Container\Container;
 
 class DrushSiteSet extends DrushBaseTask {
 
-  protected $name = 'drushsiteset';
+  protected $name = 'Drush Set Site Alias';
   protected $description = 'Set the active site.';
 
   /**

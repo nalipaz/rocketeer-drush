@@ -6,10 +6,10 @@ use Rocketeer\Plugins\Drush\RocketeerDrush;
 use Rocketeer\Plugins\Drush\DrushBaseTask;
 use Illuminate\Container\Container;
 
-class DrushUpdatedb extends DrushBaseTask {
+class DrushMaintenanceModeOff extends DrushBaseTask {
 
-  protected $name = 'Drush Update Database';
-  protected $description = 'Run pending Drupal database updates.';
+  protected $name = 'Drush Turn Off Maintenance Mode';
+  protected $description = 'Take Drupal out of maintenance mode.';
 
   /**
    * Executes the Task
@@ -17,10 +17,10 @@ class DrushUpdatedb extends DrushBaseTask {
    * @return void
    */
   public function execute() {
-    $this->explainer->line('Running pending Drupal database updates.');
+    $this->explainer->line('Taking Drupal out of maintenance mode.');
 
     return array(
-      $this->drush->run('updatedb'),
+      $this->drush->run('setMaintenanceMode', '0'),
     );
   }
 }

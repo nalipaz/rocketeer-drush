@@ -8,7 +8,7 @@ use Illuminate\Container\Container;
 
 class DrushSqlDump extends DrushBaseTask {
 
-  protected $name = 'drushsqldump';
+  protected $name = 'Drush SQL Dump';
   protected $description = 'Dump the Drupal database to an sql file.';
 
   /**

@@ -65,8 +65,9 @@ class Drush extends AbstractBinary {
   }
 
   public function sqlDump($destination = 'backup.sql') {
-    return $this->siteSet() . 
-      ' && ' . 
+    // Somehow sql-dump doesn't ever use the alias when set in a prior command.
+    return $this->siteSet() .
+      ' && ' .
       $this->getCommand('sql-dump', ['>', $destination]);
   }
 
