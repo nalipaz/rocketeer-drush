@@ -49,9 +49,11 @@ class RocketeerDrush extends AbstractPlugin {
    * @return void
    */
   public function onQueue(TasksHandler $queue) {
+    // Before deploy.
     $drushCommand = new DrushSqlDump($this->app, $this);
     $queue->addTaskListeners('deploy', 'before', [clone $drushCommand], -10, true);
 
+    // After deploy.
     $drushCommand = new DrushSiteSet($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
