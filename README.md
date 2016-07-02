@@ -27,6 +27,8 @@ You also need to add the plugin to the plugins array in `.rocketeer/config.php`:
   ],
 ```
 
+And lastly (until [this issue for Rocketeer 3.0](https://github.com/rocketeers/rocketeer/issues/680) gets resolved), you need to edit `.rocketeer/remote.php` to have `'drush'` in the shelled array: `'shelled' => ['drush'],`.
+
 ### Overriding configuration
 
 You can set global configuration for your project as described under usage above. However, in some projects you may wish to override settings per connection, stages, or strategies (most commonly connections). As an example, you could do the following for multiple connections with different configs.
