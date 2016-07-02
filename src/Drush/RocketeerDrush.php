@@ -11,6 +11,11 @@ use Rocketeer\Plugins\Drush\Tasks\DrushUpdatedb;
 use Rocketeer\Plugins\Drush\Tasks\DrushCacheRebuild;
 use Rocketeer\Plugins\Drush\Tasks\DrushMaintenanceModeOn;
 use Rocketeer\Plugins\Drush\Tasks\DrushMaintenanceModeOff;
+use Rocketeer\Plugins\Drush\Tasks\DrushRunConfiguredTasks;
+
+foreach (glob("Tasks/*.php") as $filename) {
+  include $filename;
+}
 
 class RocketeerDrush extends AbstractPlugin {
   
@@ -70,6 +75,9 @@ class RocketeerDrush extends AbstractPlugin {
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
     $drushCommand = new DrushCacheRebuild($this->app, $this);
+    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
+
+    $drushCommand = new DrushRunConfiguredTasks($this->app, $this, $queue);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
   }
 }

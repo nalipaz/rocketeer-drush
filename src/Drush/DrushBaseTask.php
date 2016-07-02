@@ -10,7 +10,7 @@ class DrushBaseTask extends \Rocketeer\Abstracts\AbstractTask {
   protected $drushPlugin;
 
   protected $drush;
-  
+
   function __construct(Container $app, $drushPlugin) {
     parent::__construct($app);
 
