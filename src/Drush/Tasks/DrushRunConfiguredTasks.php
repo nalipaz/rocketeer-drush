@@ -8,14 +8,18 @@ use Illuminate\Container\Container;
 
 class DrushRunConfiguredTasks extends DrushBaseTask {
 
-  protected $name = 'Drush Set Site Alias';
-  protected $description = 'Set the active site.';
-  protected $drushTasks;
+  protected $name = 'Drush Run Extra Tasks';
+  protected $description = 'Run all extra Drush tasks in the configuration.';
+  protected $drushTasks = array();
+  protected $event;
 
-  function __construct(Container $app, $drushPlugin, $queue) {
+  function __construct(Container $app, $drushPlugin, $event) {
     parent::__construct($app, $drushPlugin);
-var_dump($this);
-    $this->drushTasks = $this->drushPlugin->getConfig($this, 'extra_tasks');
+
+    $this->event = $event;
+    $extraTasks = $this->drushPlugin->getConfig($this, 'extra_tasks', array());
+
+    $this->drushTasks = (array_key_exists($event, $extraTasks)) ? $extraTasks[$event] : $extraTasks;
   }
 
   /**
@@ -24,10 +28,14 @@ var_dump($this);
    * @return void
    */
   public function execute() {
-    $this->explainer->line('Setting the active site.');
-
-    return array(
-      $this->drush->run('siteSet'),
-    );
+    if (!empty($this->drushTasks)) {
+      $this->explainer->line('Running all extra Drush tasks configured for the ' . $this->event . ' hook.');
+      foreach ($this->drushTasks as $task) {
+        $this->drush->run($task);
+      }
+    }
+    else {
+      $this->explainer->line('No extra Drush tasks configured for the ' . $this->event . ' hook, nothing to do.');
+    }
   }
 }

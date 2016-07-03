@@ -13,9 +13,9 @@ use Rocketeer\Plugins\Drush\Tasks\DrushMaintenanceModeOn;
 use Rocketeer\Plugins\Drush\Tasks\DrushMaintenanceModeOff;
 use Rocketeer\Plugins\Drush\Tasks\DrushRunConfiguredTasks;
 
-foreach (glob("Tasks/*.php") as $filename) {
-  include $filename;
-}
+//foreach (glob("Tasks/*.php") as $filename) {
+//  include $filename;
+//}
 
 class RocketeerDrush extends AbstractPlugin {
   
@@ -24,7 +24,10 @@ class RocketeerDrush extends AbstractPlugin {
   protected $lookups = array(
     'binaries' => array(
       'Rocketeer\Plugins\Drush\Binaries\%s',
-    )
+    ),
+    'tasks' => array(
+      'Rocketeer\Plugins\Drush\Tasks\%s',
+    ),
   );
 
   /**
@@ -42,8 +45,16 @@ class RocketeerDrush extends AbstractPlugin {
     ));
   }
 
-  public function getConfig($task, $key) {
-    return ($task->rocketeer->getOption('drush.' . $key)) ? $task->rocketeer->getOption('drush.' . $key) : $task->config->get('rocketeer-drush::drush.' . $key);
+  public function getConfig($task, $key, $default = '') {
+    if ($task->rocketeer->getOption('drush.' . $key)) {
+      return $task->rocketeer->getOption('drush.' . $key);
+    }
+    else if ($task->config->get('rocketeer-drush::drush.' . $key)) {
+      return $task->config->get('rocketeer-drush::drush.' . $key);
+    }
+    else {
+      return $default;
+    }
   }
 
   /**
@@ -77,7 +88,7 @@ class RocketeerDrush extends AbstractPlugin {
     $drushCommand = new DrushCacheRebuild($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushRunConfiguredTasks($this->app, $this, $queue);
+    $drushCommand = new DrushRunConfiguredTasks($this->app, $this, 'after');
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
   }
 }

@@ -45,30 +45,23 @@ class Drush extends AbstractBinary {
     return $this->getCommand('status');
   }
 
-  public function statusInfo($value) {
+  public function coreStatus($value) {
     // Example:
-    // # drush status|grep "Drupal version"|awk -F ":  " '{print $2}'|xargs
+    // # drush core-status 'drupal version' --format=list --no-field-labels
     // 8.1.2
     return $this->getCommand($this->alias, [
-      'status',
-      '|',
-      'grep',
-      sprintf('"%s"', $value),
-      '|',
-      'awk',
-      '-F',
-      '":  "',
-      "'{print $2}'",
-      '|',
-      'xargs'
+      'core-status',
+      sprintf("'%s'", $value),
+      '--format=list',
+      '--no-field-labels'
     ]);
   }
 
   public function sqlDump($destination = 'backup.sql') {
     // Somehow sql-dump doesn't ever use the alias when set in a prior command.
     return $this->siteSet() .
-      ' && ' .
-      $this->getCommand('sql-dump', ['>', $destination]);
+    ' && ' .
+    $this->getCommand('sql-dump', ['>', $destination]);
   }
 
   public function configImport($config = 'sync') {
@@ -94,5 +87,32 @@ class Drush extends AbstractBinary {
   public function copyDatabase() {
     // drush sql-create RELEASE && drush @alias sql-dump | mysql --user=user --password=pass --host=localhost RELEASE
     // drush sql-sync????
+  }
+
+  // Catch-all to handle aliases.
+  public function __call($method, $args) {
+    $aliases = array(
+      'advagg-clear-all-files' => 'advaggClearAllFiles',
+      'advagg-caf' => 'advaggClearAllFiles',
+      'cache-rebuild' => 'cacheRebuild',
+      'cr' => 'cacheRebuild',
+      'rebuild' => 'cacheRebuild',
+      'config-import' => 'configImport',
+      'cim' => 'configImport',
+      'site-set' => 'siteSet',
+      'use' => 'siteSet',
+      'sql-dump' => 'sqlDump',
+      'updb' => 'updatedb',
+    );
+
+    if (array_key_exists($method, $aliases)) {
+      return call_user_func_array([$this, $aliases[$method]], $args);
+    }
+    else {
+      $parent = get_parent_class();
+      if ($parent && (method_exists($parent, $method) || method_exists($parent, '__call'))) {
+        return parent::__call($method, $args);
+      }
+    }
   }
 }
