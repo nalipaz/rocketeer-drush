@@ -4,18 +4,15 @@ namespace Rocketeer\Plugins\Drush;
 use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Services\TasksHandler;
-use Rocketeer\Plugins\Drush\Tasks\DrushSqlDump;
-use Rocketeer\Plugins\Drush\Tasks\DrushSiteSet;
-use Rocketeer\Plugins\Drush\Tasks\DrushConfigImport;
-use Rocketeer\Plugins\Drush\Tasks\DrushUpdatedb;
-use Rocketeer\Plugins\Drush\Tasks\DrushCacheRebuild;
-use Rocketeer\Plugins\Drush\Tasks\DrushMaintenanceModeOn;
-use Rocketeer\Plugins\Drush\Tasks\DrushMaintenanceModeOff;
-use Rocketeer\Plugins\Drush\Tasks\DrushRunConfiguredTasks;
 
-//foreach (glob("Tasks/*.php") as $filename) {
-//  include $filename;
-//}
+spl_autoload_register(function ($class) {
+  include 'Tasks/' . $class . '.php';
+  class_alias('Rocketeer\\Plugins\\Drush\\Tasks\\' . $class, $class);
+});
+
+foreach (glob("Tasks/*.php") as $class) {
+  spl_autoload_register($class);
+}
 
 class RocketeerDrush extends AbstractPlugin {
   
