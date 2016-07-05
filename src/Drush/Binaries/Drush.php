@@ -104,12 +104,14 @@ class Drush extends AbstractBinary {
       'sql-dump' => 'sqlDump',
       'updb' => 'updatedb',
     );
-
+    
     if (array_key_exists($method, $aliases)) {
       return call_user_func_array([$this, $aliases[$method]], $args);
     }
     else {
       $parent = get_parent_class();
+      var_dump($parent);
+      var_dump($method);
       if ($parent && (method_exists($parent, $method) || method_exists($parent, '__call'))) {
         return parent::__call($method, $args);
       }
