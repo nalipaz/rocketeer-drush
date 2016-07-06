@@ -18,7 +18,6 @@ class DrushRunConfiguredTasks extends DrushBaseTask {
 
     $this->event = $event;
     $extraTasks = $this->drushPlugin->getConfig($this, 'extra_tasks', array());
-    var_dump($event);
 
     $this->drushTasks = (array_key_exists($event, $extraTasks)) ? $extraTasks[$event] : $extraTasks;
   }

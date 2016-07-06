@@ -89,6 +89,10 @@ class Drush extends AbstractBinary {
     // drush sql-sync????
   }
 
+  public function viewsDev() {
+    return $this->getCommand('views-dev');
+  }
+
   // Catch-all to handle aliases.
   public function __call($method, $args) {
     $aliases = array(
@@ -103,6 +107,8 @@ class Drush extends AbstractBinary {
       'use' => 'siteSet',
       'sql-dump' => 'sqlDump',
       'updb' => 'updatedb',
+      'views-dev' => 'viewsDev',
+      'vd' => 'viewsDev',
     );
     
     if (array_key_exists($method, $aliases)) {
@@ -110,8 +116,6 @@ class Drush extends AbstractBinary {
     }
     else {
       $parent = get_parent_class();
-      var_dump($parent);
-      var_dump($method);
       if ($parent && (method_exists($parent, $method) || method_exists($parent, '__call'))) {
         return parent::__call($method, $args);
       }
