@@ -21,7 +21,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Rocketeer\\Plugins\\Drush\\": "src/Drush"
+      "Rocketeer\\Plugins\\Drush\\": "src/Drush",
+      "Rocketeer\\Plugins\\Drush\\Tasks\\": "src/Drush/Tasks"
     }
   }
 }

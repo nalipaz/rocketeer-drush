@@ -5,15 +5,6 @@ use Illuminate\Container\Container;
 use Rocketeer\Abstracts\AbstractPlugin;
 use Rocketeer\Services\TasksHandler;
 
-spl_autoload_register(function ($class) {
-  include 'Tasks/' . $class . '.php';
-  class_alias('Rocketeer\\Plugins\\Drush\\Tasks\\' . $class, $class);
-});
-
-foreach (glob("Tasks/*.php") as $class) {
-  spl_autoload_register($class);
-}
-
 class RocketeerDrush extends AbstractPlugin {
   
   public $binaryPath = 'Rocketeer\Plugins\Drush\Binaries\Drush';
@@ -63,32 +54,32 @@ class RocketeerDrush extends AbstractPlugin {
    */
   public function onQueue(TasksHandler $queue) {
     // Before deploy.
-    $drushCommand = new DrushSqlDump($this->app, $this);
+    $drushCommand = new Tasks\DrushSqlDump($this->app, $this);
     $queue->addTaskListeners('deploy', 'before', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushRunConfiguredTasks($this->app, $this, 'before');
+    $drushCommand = new Tasks\DrushRunConfiguredTasks($this->app, $this, 'before');
     $queue->addTaskListeners('deploy', 'before', [clone $drushCommand], -10, true);
 
     // After deploy.
-    $drushCommand = new DrushSiteSet($this->app, $this);
+    $drushCommand = new Tasks\DrushSiteSet($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushConfigImport($this->app, $this);
+    $drushCommand = new Tasks\DrushConfigImport($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushMaintenanceModeOn($this->app, $this);
+    $drushCommand = new Tasks\DrushMaintenanceModeOn($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushUpdatedb($this->app, $this);
+    $drushCommand = new Tasks\DrushUpdatedb($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushMaintenanceModeOff($this->app, $this);
+    $drushCommand = new Tasks\DrushMaintenanceModeOff($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushCacheRebuild($this->app, $this);
+    $drushCommand = new Tasks\DrushCacheRebuild($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new DrushRunConfiguredTasks($this->app, $this, 'after');
+    $drushCommand = new Tasks\DrushRunConfiguredTasks($this->app, $this, 'after');
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
   }
 }
