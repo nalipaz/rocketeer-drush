@@ -1,5 +1,7 @@
 # Rocketeer Drush Plugin
 
+[![Join the chat at https://gitter.im/nalipaz/rocketeer-drush](https://badges.gitter.im/nalipaz/rocketeer-drush.svg)](https://gitter.im/nalipaz/rocketeer-drush?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Rocketeer plugin for Drush. Performs various tasks on before-symlink.deploy.
 
 ## Install
