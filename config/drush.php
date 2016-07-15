@@ -6,4 +6,5 @@ return [
     'before' => [],
     'after' => [],
   ],
+  'twig_debug' => FALSE,
 ];

@@ -37,8 +37,10 @@ class Drush extends AbstractBinary {
   /**
    * Allow setting the drush alias to use for the session.
    */
-  public function siteSet() {
-    return $this->getCommand('site-set', $this->alias);
+  public function siteSet($quiet = FALSE) {
+    $flags = ($quiet) ? '-q' : array();
+
+    return $this->getCommand('site-set', $this->alias, $flags);
   }
 
   public function status() {
@@ -59,7 +61,7 @@ class Drush extends AbstractBinary {
 
   public function sqlDump($destination = 'backup.sql') {
     // Somehow sql-dump doesn't ever use the alias when set in a prior command.
-    return $this->siteSet() .
+    return $this->siteSet(TRUE) .
     ' && ' .
     $this->getCommand('sql-dump', ['>', $destination]);
   }
@@ -93,6 +95,23 @@ class Drush extends AbstractBinary {
     return $this->getCommand('views-dev');
   }
 
+  public function drupalDirectory() {
+    return $this->siteSet(TRUE) .
+      ' && ' .
+      $this->getCommand('drupal-directory');
+  }
+
+  public function twigConfigDebug($value = FALSE) {
+    $faux_bool = $value ? 'TRUE' : 'FALSE';
+    $code = sprintf('use Symfony\Component\Yaml\Yaml;
+ use Drupal\Component\Serialization\Yaml as SerializationYaml;
+ \$config = Yaml::parse(file_get_contents(DRUPAL_ROOT . "/sites/default/services.yml"));
+ \$config["parameters"]["twig.config"]["debug"] = %s;
+ file_put_contents(DRUPAL_ROOT . "/sites/default/services.yml", SerializationYaml::encode(\$config));', $faux_bool);
+
+    return $this->getCommand('php-eval', $code);
+  }
+
   // Catch-all to handle aliases.
   public function __call($method, $args) {
     $aliases = array(
@@ -103,6 +122,8 @@ class Drush extends AbstractBinary {
       'rebuild' => 'cacheRebuild',
       'config-import' => 'configImport',
       'cim' => 'configImport',
+      'drupal-directory' => 'drupalDirectory',
+      'dd' => 'drupalDirectory',
       'site-set' => 'siteSet',
       'use' => 'siteSet',
       'sql-dump' => 'sqlDump',
