@@ -101,13 +101,13 @@ class Drush extends AbstractBinary {
       $this->getCommand('drupal-directory');
   }
 
-  public function twigConfigDebug($value = FALSE) {
+  public function twigDebug($value = FALSE) {
     $faux_bool = $value ? 'TRUE' : 'FALSE';
-    $code = sprintf('use Symfony\Component\Yaml\Yaml;
+    $code = sprintf('\'use Symfony\Component\Yaml\Yaml;
  use Drupal\Component\Serialization\Yaml as SerializationYaml;
- \$config = Yaml::parse(file_get_contents(DRUPAL_ROOT . "/sites/default/services.yml"));
- \$config["parameters"]["twig.config"]["debug"] = %s;
- file_put_contents(DRUPAL_ROOT . "/sites/default/services.yml", SerializationYaml::encode(\$config));', $faux_bool);
+ $config = Yaml::parse(file_get_contents(DRUPAL_ROOT . "/sites/default/services.yml"));
+ $config["parameters"]["twig.config"]["debug"] = %s;
+ file_put_contents(DRUPAL_ROOT . "/sites/default/services.yml", SerializationYaml::encode($config));\'', $faux_bool);
 
     return $this->getCommand('php-eval', $code);
   }

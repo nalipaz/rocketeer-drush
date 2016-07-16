@@ -7,10 +7,10 @@ use Rocketeer\Plugins\Drush\DrushBaseTask;
 use Rocketeer\Binaries\Php;
 use Illuminate\Container\Container;
 
-class DrushTwigConfigDebug extends DrushBaseTask {
+class DrushTwigDebug extends DrushBaseTask {
 
-  protected $name = 'Drush Set Twig Config Debug';
-  protected $description = 'Set Twig config debugging on or off.';
+  protected $name = 'Drush Set Twig Debug';
+  protected $description = 'Set Twig debugging on or off.';
 
   /**
    * Executes the Task
@@ -20,10 +20,10 @@ class DrushTwigConfigDebug extends DrushBaseTask {
   public function execute() {
     $setting = $this->drushPlugin->getConfig($this, 'twig_debug');
     $label = ($setting) ? 'on' : 'off';
-    $this->explainer->line('Turning ' . $label . ' Twig config debugging.');
+    $this->explainer->line('Turning ' . $label . ' Twig debugging.');
 
     return array(
-      $this->drush->run('twigConfigDebug', $this->drushPlugin->getConfig($this, 'twig_debug')),
+      $this->drush->run('twigDebug', $this->drushPlugin->getConfig($this, 'twig_debug')),
     );
   }
 }

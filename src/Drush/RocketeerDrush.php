@@ -67,19 +67,19 @@ class RocketeerDrush extends AbstractPlugin {
     $drushCommand = new Tasks\DrushConfigImport($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new Tasks\DrushMaintenanceModeOn($this->app, $this);
+    $drushCommand = new Tasks\DrushMaintenanceMode($this->app, $this, '1');
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
     $drushCommand = new Tasks\DrushUpdatedb($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
-    $drushCommand = new Tasks\DrushMaintenanceModeOff($this->app, $this);
+    $drushCommand = new Tasks\DrushMaintenanceMode($this->app, $this, '0');
+    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
+
+    $drushCommand = new Tasks\DrushTwigDebug($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
     $drushCommand = new Tasks\DrushCacheRebuild($this->app, $this);
-    $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
-
-    $drushCommand = new Tasks\DrushTwigConfigDebug($this->app, $this);
     $queue->addTaskListeners('deploy', 'after', [clone $drushCommand], -10, true);
 
     $drushCommand = new Tasks\DrushRunConfiguredTasks($this->app, $this, 'after');
