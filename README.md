@@ -47,5 +47,9 @@ You can set global configuration for your project as described under usage above
     ├── drush.php
     ├── remote.php
     └── scm.php
+.rocketeer/plugins/
+└── rocketeers
+    └── rocketeer-drush
+        └── drush.php
 ```
 In the above example we are overriding some configuration in both the production and staging connections. `drush.php` is simply a copy of `.rocketeer/plugins/rocketeers/rocketeer-drush/drush.php` which has been modified with different settings like a different `drush_alias`.
