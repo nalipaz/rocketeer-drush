@@ -27,7 +27,7 @@ class DrushBaseTask extends \Rocketeer\Abstracts\AbstractTask {
   public function execute() {
     $drush_alias = $this->localStorage->get('drush_alias');
     if (!$drush_alias) {
-      $drush_alias = $this->command->ask('What Drush Alias should be used for this deployment?');
+      $drush_alias = $this->command->ask('What Drush Alias should be used for this server?');
       $this->localStorage->set('drush_alias', Drush::ensureAliasFormat($drush_alias));
     }
     $this->drush->setSiteAlias($this->localStorage->get('drush_alias'));
