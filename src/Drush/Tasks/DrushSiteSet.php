@@ -17,6 +17,7 @@ class DrushSiteSet extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $this->explainer->line('Setting the active site.');
 
     return array(

@@ -28,6 +28,7 @@ class DrushRunConfiguredTasks extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     if (!empty($this->drushTasks)) {
       $this->explainer->line('Running all extra Drush tasks configured for the ' . $this->event . ' hook.');
       foreach ($this->drushTasks as $task) {

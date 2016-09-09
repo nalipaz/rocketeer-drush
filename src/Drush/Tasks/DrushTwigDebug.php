@@ -18,6 +18,7 @@ class DrushTwigDebug extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $setting = $this->drushPlugin->getConfig($this, 'twig_debug');
     $label = ($setting) ? 'on' : 'off';
     $this->explainer->line('Turning ' . $label . ' Twig debugging.');

@@ -24,6 +24,7 @@ class DrushMaintenanceMode extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $label = ($this->state === '0') ? 'off' : 'on';
     $this->explainer->line('Turning ' . $label . ' Drupal\'s maintenance mode.');
 

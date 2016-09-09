@@ -17,6 +17,7 @@ class DrushUpdatedb extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $this->explainer->line('Running pending Drupal database updates.');
 
     return array(

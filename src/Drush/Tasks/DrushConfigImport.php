@@ -17,6 +17,7 @@ class DrushConfigImport extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $this->explainer->line('Importing the drupal configuration files.');
 
     return array(

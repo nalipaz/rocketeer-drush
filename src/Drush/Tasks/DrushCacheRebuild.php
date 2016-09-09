@@ -17,6 +17,7 @@ class DrushCacheRebuild extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $this->explainer->line('Rebuilding the Drupal cache.');
 
     return array(

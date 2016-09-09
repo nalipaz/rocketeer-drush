@@ -17,6 +17,7 @@ class DrushSqlDump extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $this->explainer->line('Dumping the Drupal database.');
 
     return array(

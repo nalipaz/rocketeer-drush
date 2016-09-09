@@ -17,6 +17,7 @@ class DrushViewsDev extends DrushBaseTask {
    * @return void
    */
   public function execute() {
+    parent::execute();
     $this->explainer->line('Setting the Views settings to more developer-oriented.');
 
     return array(

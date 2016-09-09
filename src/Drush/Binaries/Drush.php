@@ -21,7 +21,7 @@ class Drush extends AbstractBinary {
     );
   }
 
-  protected function ensureAliasFormat($alias) {
+  public function ensureAliasFormat($alias) {
     if (strpos($alias, '@') !== 0) {
       $alias = '@' . $alias;
     }
